@@ -23,7 +23,7 @@ def reset_default(create = True):
     os.remove("data.json")
 
     if create:
-        data = json.loads(open("preset_5ECO.json").read())
+        data = json.loads(open("preset_4ECO.json").read())
 
         for materia in data.keys():
             for avaliacao in data[materia].keys():
