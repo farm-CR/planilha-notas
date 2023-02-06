@@ -8,6 +8,18 @@ st.set_page_config(page_title='Notas', layout='wide')
 
 def run():
 
+    paginas = {
+        "Colocar as notas": input,
+        "Resultados": output
+    }
+    pagina = st.sidebar.radio(
+        "Página",
+        paginas.keys()
+    )
+
+    paginas[pagina]()
+
+def input():
     if os.path.isfile("data.json")  == False:
         reset_default()
 
@@ -18,17 +30,24 @@ def run():
     st.sidebar.button("Reset file", on_click= reset_default)
     ask(materia)
 
-def reset_default(create = True):
+def output():
+    data = json.loads(open("data.json").read())
+    data = pd.DataFrame({
+        materia.lower(): 
+            [data[materia]["Quiz"]["Media"], data[materia]["APS"]["Media"], 
+            data[materia]["PI"]["Media"], data[materia]["PF"]["Media"]]
+        for materia in data.keys()
+    }).rename({0: "quiz", 1: "APS", 2: "PI", 3: "PF"}).T
 
-    os.remove("data.json")
+    st.dataframe(data)
 
-    if create:
-        data = json.loads(open("preset_5ECO.json").read())
+def reset_default():
+    data = json.loads(open("preset_5ECO.json").read())
 
-        for materia in data.keys():
-            for avaliacao in data[materia].keys():
-                data[materia][avaliacao]["Notas"] = list(np.zeros(data[materia][avaliacao]["Campos"]))
-        json.dump(data, open('data.json', 'w'))
+    for materia in data.keys():
+        for avaliacao in data[materia].keys():
+            data[materia][avaliacao]["Notas"] = list(np.zeros(data[materia][avaliacao]["Campos"]))
+    json.dump(data, open('data.json', 'w'))
 
 def clean_input(text):
     if text == "":
@@ -77,5 +96,6 @@ def ask(materia):
     json.dump(data, open('data.json', 'w'))
 
     st.write(data)
+
 
 run()
