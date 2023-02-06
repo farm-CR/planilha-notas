@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import json
 import os
+import plotly.express as px
 
 st.set_page_config(page_title='Notas', layout='wide')
 
@@ -32,17 +33,26 @@ def input():
 
 def output():
     data = json.loads(open("data.json").read())
-    data = pd.DataFrame({
-        materia.lower(): 
-            [data[materia]["Quiz"]["Media"], data[materia]["APS"]["Media"], 
-            data[materia]["PI"]["Media"], data[materia]["PF"]["Media"]]
-        for materia in data.keys()
-    }).rename({0: "quiz", 1: "APS", 2: "PI", 3: "PF"}).T
 
-    st.dataframe(data)
+    df = pd.DataFrame()
+    for materia in data.keys():
+        df = pd.concat([
+            df,
+            (pd.DataFrame(data[materia])
+                .drop(["Notas", "Conta", "Campos"])
+                .T.reset_index()
+                .rename({"index": "avaliacao"}, axis = 1)
+                .assign(materia = materia))
+        ])
+
+    df = df.query("avaliacao != 'Media'").assign(nota_ponderada = lambda _: _.Peso * _.Media).groupby("materia").nota_ponderada.sum().reset_index()
+    fig = px.line_polar(df, r='nota_ponderada', theta='materia', line_close=True)
+    fig.update_traces(fill='toself')
+    fig.show()
+    st.plotly_chart(fig)
 
 def reset_default():
-    data = json.loads(open("preset_5ECO.json").read())
+    data = json.loads(open("preset_4ECO.json").read())
 
     for materia in data.keys():
         for avaliacao in data[materia].keys():

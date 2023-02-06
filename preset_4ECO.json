@@ -1,0 +1,28 @@
+{
+"EconometriaI": 
+    {"Quiz": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 3, "Peso": 0.15},
+        "APS": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 4, "Peso": 0.20},
+        "PI": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 1, "Peso": 0.25},
+        "PF": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 1, "Peso": 0.40}},
+"FinancasII": 
+    {"Quiz": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 6, "Peso": 0.20},
+        "APS": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 2, "Peso": 0.20},
+        "PI": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 1, "Peso": 0.25},
+        "PF": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 1, "Peso": 0.35}},
+"HPE": 
+    {"Quiz": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 0, "Peso": 0.0},
+        "APS": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 3, "Peso": 0.30},
+        "PI": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 1, "Peso": 0.25},
+        "PF": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 1, "Peso": 0.45}},
+"MacroInter": 
+    {"Quiz": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 5, "Peso": 0.15},
+        "APS": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 0, "Peso": 0.0},
+        "PI": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 1, "Peso": 0.35},
+        "PF": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 1, "Peso": 0.5}},
+"MicroIII": 
+    {"Quiz": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 0, "Peso": 0.0},
+        "APS": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 12, "Peso": 0.20},
+        "PI": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 1, "Peso": 0.25},
+        "PF": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 1, "Peso": 0.35}}
+    
+}
