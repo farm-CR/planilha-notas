@@ -3,8 +3,7 @@
         {"Quiz": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 3, "Peso": 0.25},
          "APS": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 2, "Peso": 0.25},
          "PI": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 1, "Peso": 0.25},
-         "PF": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 1, "Peso": 0.25},
-         "Media": 0},
+         "PF": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 1, "Peso": 0.25}},
     "Econometria": 
         {"Quiz": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 2, "Peso": 0.25},
          "APS": {"Notas": [], "Conta": "lambda _: np.mean(_)", "Campos": 3, "Peso": 0.25},
