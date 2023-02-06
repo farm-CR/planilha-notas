@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import json
-import os.path
+import os
 
 st.set_page_config(page_title='Notas', layout='wide')
 
@@ -15,16 +15,20 @@ def run():
         'Escolha a matéria',
         json.loads(open("data.json").read()).keys())
 
-    st.sidebar.button("Reset to default", on_click= reset_default)
+    st.sidebar.button("Reset file", on_click= reset_default)
     ask(materia)
 
-def reset_default():
-    data = json.loads(open("preset_5ECO.json").read())
+def reset_default(create = True):
 
-    for materia in data.keys():
-        for avaliacao in data[materia].keys():
-            data[materia][avaliacao]["Notas"] = list(np.zeros(data[materia][avaliacao]["Campos"]))
-    json.dump(data, open('data.json', 'w'))
+    os.remove("data.json")
+
+    if create:
+        data = json.loads(open("preset_5ECO.json").read())
+
+        for materia in data.keys():
+            for avaliacao in data[materia].keys():
+                data[materia][avaliacao]["Notas"] = list(np.zeros(data[materia][avaliacao]["Campos"]))
+        json.dump(data, open('data.json', 'w'))
 
 def clean_input(text):
     if text == "":
@@ -35,44 +39,33 @@ def clean_input(text):
             text = np.nan
     return text
 
+def create_input(data, materia, avaliacao):
+    for campo in range(data[materia][avaliacao]["Campos"]):
+            data[materia][avaliacao]["Notas"][campo] = (
+                clean_input(
+                    st.text_input(f"{avaliacao} {campo+1}", 
+                        data[materia][avaliacao]["Notas"][campo], 
+                        key = f"{avaliacao}{campo+1}_{materia}")))
+    data[materia][avaliacao]["Media"] = (eval(data[materia][avaliacao]["Conta"])(data[materia][avaliacao]["Notas"]))
+
 def ask(materia):
     data = json.loads(open("data.json").read())
 
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown("# Quizes")
-        for campo in range(data[materia]["Quiz"]["Campos"]):
-            data[materia]["Quiz"]["Notas"][campo] = (
-                clean_input(
-                    st.text_input(f"Quiz {campo+1}", 
-                        data[materia]["Quiz"]["Notas"][campo], 
-                        key = f"Quiz{campo+1}_{materia}")))
-        st.write(eval(data[materia]["Quiz"]["Conta"])(data[materia]["Quiz"]["Notas"]))
+        create_input(data, materia, "Quiz")
+        st.write(data[materia]["Quiz"]["Media"])
         
     with col2:
-        st.markdown("# Quizes")
-        for campo in range(data[materia]["APS"]["Campos"]):
-            data[materia]["APS"]["Notas"][campo] = (
-                clean_input(
-                    st.text_input(f"APS {campo+1}", 
-                        data[materia]["APS"]["Notas"][campo], 
-                        key = f"APS{campo+1}_{materia}")))
-        st.write(eval(data[materia]["APS"]["Conta"])(data[materia]["APS"]["Notas"]))
+        st.markdown("# APS")
+        create_input(data, materia, "APS")
+        st.write(data[materia]["APS"]["Media"])
 
     with col3:
         st.markdown("# Provas")
-        for campo in range(data[materia]["PI"]["Campos"]):
-            data[materia]["PI"]["Notas"][campo] = (
-                clean_input(
-                    st.text_input(f"PI", 
-                        data[materia]["PI"]["Notas"][campo], 
-                        key = f"PI{campo+1}_{materia}")))
-        for campo in range(data[materia]["PF"]["Campos"]):
-            data[materia]["PF"]["Notas"][campo] = (
-                clean_input(
-                    st.text_input(f"PF", 
-                        data[materia]["PF"]["Notas"][campo], 
-                        key = f"PF{campo+1}_{materia}")))
+        create_input(data, materia, "PI")
+        create_input(data, materia, "PF")
     
     data[materia]["Media"] = (
         eval(data[materia]["Quiz"]["Conta"])(data[materia]["Quiz"]["Notas"]) * data[materia]["Quiz"]["Peso"] +
